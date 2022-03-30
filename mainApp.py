@@ -1,6 +1,7 @@
 import tweepy
 import requests
 from bs4 import BeautifulSoup
+import config
 
 #the main function that will handle everything
 def __main__ ():
@@ -36,6 +37,16 @@ def __main__ ():
         #closes the text file after use
         tweetFile.close()
 
+    #this function configures the tweepy API with the correct credentials
+    def tweepyConfig():
+        #sets handler using consumer key and secret
+        auth = tweepy.OAuthHandler(config.consumerToken, config.consumerSecret)
+        #sets access token with access token and token secret
+        auth.set_access_token(config.accessToken, config.accessSecret)
+
+        #creates object for API use
+        api = tweepy.API(auth)
+
     #this function will send out a given tweet based on the bots current location in the txt file
     #this will be done every x time, where x may be either a period of time or a specified time of day
     def tweet():
@@ -43,6 +54,7 @@ def __main__ ():
     
     #most functions will be called here
     webScraper()
+    tweepyConfig()
 
     #this function will likely be in an infinite loop - with the loop pausing every x seconds (until a tweet needs to be sent)
     tweet()
