@@ -3,9 +3,11 @@ import requests
 from bs4 import BeautifulSoup
 import config
 
+auth = None
+
 #the main function that will handle everything
 def __main__ ():
-    print("Hello World!")
+    global auth
     fileName = "tweets.txt"
 
     #this function will scrape the web every time the bot is run to completely overwrite a txt
@@ -47,16 +49,18 @@ def __main__ ():
         #creates object for API use
         api = tweepy.API(auth)
 
-    #this function will send out a given tweet based on the bots current location in the txt file
-    #this will be done every x time, where x may be either a period of time or a specified time of day
-    def tweet():
-        print("will handle the sending of tweets")
-    
+        #this function will send out a given tweet based on the bots current location in the txt file
+        #this will be done every x time, where x may be either a period of time or a specified time of day
+        #variable tweetContent should be passed as string
+        def tweet(tweetContent):
+            api.update_status(tweetContent)
+        
+        tweet("hello world")
+        
     #most functions will be called here
     webScraper()
     tweepyConfig()
 
     #this function will likely be in an infinite loop - with the loop pausing every x seconds (until a tweet needs to be sent)
-    tweet()
 
 __main__()
